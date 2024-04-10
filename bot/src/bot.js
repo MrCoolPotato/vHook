@@ -32,6 +32,9 @@ client.on("messageCreate", async (message) => {
   // Ignore messages from bots
   if (message.author.bot) return;
 
+  // Only process the message if the bot is mentioned
+  if (!message.mentions.has(client.user.id)) return;
+
   // Get the user's ID and name
   const userId = message.author.id;
   const username = message.author.username;
