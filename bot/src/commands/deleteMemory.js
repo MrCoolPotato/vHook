@@ -6,7 +6,7 @@ function deleteMemory(message, conversations) {
   conversations.delete(userId);
 
   // Reply to the user
-  message.reply("Your conversation history has been deleted.");
+  message.reply("Your conversation data has been deleted.");
 }
 
 module.exports = deleteMemory;

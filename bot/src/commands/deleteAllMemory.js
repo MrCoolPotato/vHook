@@ -1,7 +1,7 @@
 function deleteAllMemory(message, conversations) {
   // Check if the user's ID matches the specified ID
   if (message.author.id !== "167700985425166336") {
-    message.reply("You do not have permission to use this command.");
+    message.reply("Developer only command.");
     return;
   }
 
@@ -9,7 +9,7 @@ function deleteAllMemory(message, conversations) {
   conversations.clear();
 
   // Reply to the user
-  message.reply("All conversation histories have been deleted.");
+  message.reply("Context manager restarted.");
 }
 
 module.exports = deleteAllMemory;
