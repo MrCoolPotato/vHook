@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:14
+FROM node:20.12.2
 # Set the working directory in the Docker container
 WORKDIR /usr/src/app
 # Copy package.json and package-lock.json to the working directory
@@ -11,4 +11,4 @@ COPY . .
 # Expose port 3000 for the bot (change this if your bot uses a different port)
 EXPOSE 3000
 # Start the bot
-CMD [ "node", "bot.js" ]
+CMD [ "node", "src/bot.js" ]
