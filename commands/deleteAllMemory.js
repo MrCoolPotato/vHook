@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 const developerId = process.env.DEVELOPER_ID;
 
@@ -8,8 +8,6 @@ function deleteAllMemory(message, conversations) {
       message.reply("Developer only command.");
       return;
     }
-
-    // Optionally, add confirmation logic here
 
     conversations.clear();
     message.reply("All conversation histories have been cleared.");
