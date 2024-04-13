@@ -11,4 +11,4 @@ COPY . .
 # Expose port 3000 for the bot (change this if your bot uses a different port)
 EXPOSE 3000
 # Start the bot
-CMD [ "node", "src/bot.js" ]
+CMD [ "node", "bot.js" ]
