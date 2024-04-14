@@ -19,7 +19,7 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.MessageContent, // This has to be enabled explicitly in the bot's dashboard
     GatewayIntentBits.GuildMembers,
   ],
 });
@@ -57,8 +57,8 @@ const MAX_HISTORY = 100; // Maximum number of messages in each conversation hist
 
 async function testOpenAI() {
   try {
-    const chatCompletion = await openai.ChatCompletion.create({
-      model: "gpt-4-turbo",
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
@@ -66,12 +66,12 @@ async function testOpenAI() {
         },
         {
           role: "user",
-          content: "Say hello to the world in English!",
+          content: "Say a very short hello to the world in English!",
         },
       ],
     });
 
-    console.log(`OpenAI test response: ${chatCompletion.choices[0].message}`);
+    console.log(`OpenAI test response: ${response.choices[0].message.content}`); // Corrected property access
   } catch (error) {
     console.error(`Error testing OpenAI: ${error}`);
   }
@@ -105,20 +105,20 @@ client.on("messageCreate", async (message) => {
   if (conversation.length > MAX_HISTORY) conversation.shift();
 
   try {
-    const chatCompletion = await openai.ChatCompletion.create({
-      model: "gpt-4-turbo",
+    const chatCompletion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
       messages: conversation,
     });
 
     // Adding bot's response to the conversation history
     conversation.push({
       role: "assistant",
-      content: chatCompletion.choices[0].message,
+      content: chatCompletion.choices[0].message.content,
     });
 
     if (conversation.length > MAX_HISTORY) conversation.shift();
 
-    message.reply(chatCompletion.choices[0].message);
+    message.reply(chatCompletion.choices[0].message.content);
     conversations.set(userId, conversation);
   } catch (error) {
     console.error(`Error while fetching response from OpenAI: ${error}`);
