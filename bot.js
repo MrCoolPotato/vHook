@@ -8,7 +8,6 @@ const OpenAI = require("openai");
 const deleteMemory = require("./commands/deleteMemory");
 const deleteAllMemory = require("./commands/deleteAllMemory");
 
-// Initialize the OpenAI API client
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -19,7 +18,7 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent, // This has to be enabled explicitly in the bot's dashboard
+    GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMembers,
   ],
 });
@@ -39,7 +38,7 @@ const rest = new REST({ version: "9" }).setToken(BOT_TOKEN);
 
 client.on("ready", async () => {
   console.log("Bot is up and running!");
-  console.log("CLIENT_ID:", process.env.CLIENT_ID); // Ensures CLIENT_ID is loaded and logs it
+  console.log("CLIENT_ID:", process.env.CLIENT_ID);
   try {
     console.log("Started refreshing global application (/) commands.");
     await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
@@ -53,7 +52,7 @@ client.on("ready", async () => {
 });
 
 const conversations = new Map();
-const MAX_HISTORY = 100; // Maximum number of messages in each conversation history
+const MAX_HISTORY = 100;
 
 async function testOpenAI() {
   try {
@@ -71,7 +70,7 @@ async function testOpenAI() {
       ],
     });
 
-    console.log(`OpenAI test response: ${response.choices[0].message.content}`); // Corrected property access
+    console.log(`OpenAI test response: ${response.choices[0].message.content}`);
   } catch (error) {
     console.error(`Error testing OpenAI: ${error}`);
   }
@@ -96,7 +95,6 @@ client.on("messageCreate", async (message) => {
   const username = message.author.username;
   let conversation = conversations.get(userId) || [];
 
-  // Pushing new message to the conversation
   conversation.push({
     role: "user",
     content: `${username}: ${message.content}`,
@@ -110,7 +108,6 @@ client.on("messageCreate", async (message) => {
       messages: conversation,
     });
 
-    // Adding bot's response to the conversation history
     conversation.push({
       role: "assistant",
       content: chatCompletion.choices[0].message.content,
