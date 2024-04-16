@@ -115,11 +115,26 @@ client.on("messageCreate", async (message) => {
 
     if (conversation.length > MAX_HISTORY) conversation.shift();
 
-    message.reply(chatCompletion.choices[0].message.content);
+    // Send the response in chunks if it's too long
+    const responseContent = chatCompletion.choices[0].message.content;
+    if (responseContent.length > 2000) {
+      // Split the message into chunks and send each one
+      const chunkSize = 2000;
+      for (let i = 0; i < responseContent.length; i += chunkSize) {
+        const messageChunk = responseContent.substring(
+          i,
+          Math.min(responseContent.length, i + chunkSize)
+        );
+        await message.reply(messageChunk);
+      }
+    } else {
+      await message.reply(responseContent);
+    }
+
     conversations.set(userId, conversation);
   } catch (error) {
     console.error(`Error while fetching response from OpenAI: ${error}`);
-    message.reply(
+    await message.reply(
       "Sorry, I encountered an error trying to process your request."
     );
   }
