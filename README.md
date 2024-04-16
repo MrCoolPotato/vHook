@@ -1,5 +1,3 @@
-# vHook
-
 # Discord OpenAI Bot
 
 ## Overview
@@ -68,10 +66,6 @@ node bot.js
 
 - `/deletememory` - Deletes the conversation history of the user who issued the command.
 - `/deleteallmemory` - Deletes all conversation histories (admin only).
-
-## Development
-
-Feel free to fork the project and submit pull requests. You can enhance the bot by adding more interactive features or improving the existing commands.
 
 ## License
 
