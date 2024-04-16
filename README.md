@@ -1,6 +1,5 @@
 # vHook
 
-```markdown
 # Discord OpenAI Bot
 
 ## Overview
@@ -26,6 +25,7 @@ Before you begin, ensure you have the following installed:
 ## Setup
 
 1. **Clone the repository:**
+
 ```
 
 git clone https://github.com/MrCoolPotato/Discord-multi-purpose-chatbot.git
@@ -76,4 +76,3 @@ Feel free to fork the project and submit pull requests. You can enhance the bot 
 ## License
 
 This project is licensed under the MIT License - see the `LICENSE` file for details.
-```
