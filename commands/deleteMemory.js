@@ -1,16 +1,16 @@
-function deleteMemory(message, conversations) {
+function deleteMemory(interaction, conversations) {
   try {
-    const userId = message.author.id;
+    const userId = interaction.user.id;
 
     if (conversations.has(userId)) {
       conversations.delete(userId);
-      message.reply("Your conversation data has been deleted.");
+      interaction.reply("Your conversation data has been deleted.");
     } else {
-      message.reply("No conversation data found to delete.");
+      interaction.reply("No conversation data found to delete.");
     }
   } catch (error) {
     console.error(`Error deleting memory: ${error}`);
-    message.reply(
+    interaction.reply(
       "There was an error processing your request to delete conversation data."
     );
   }

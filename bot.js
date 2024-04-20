@@ -115,10 +115,8 @@ client.on("messageCreate", async (message) => {
 
     if (conversation.length > MAX_HISTORY) conversation.shift();
 
-    // Send the response in chunks if it's too long
     const responseContent = chatCompletion.choices[0].message.content;
     if (responseContent.length > 2000) {
-      // Split the message into chunks and send each one
       const chunkSize = 2000;
       for (let i = 0; i < responseContent.length; i += chunkSize) {
         const messageChunk = responseContent.substring(

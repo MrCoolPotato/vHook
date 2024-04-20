@@ -2,18 +2,24 @@ require("dotenv").config();
 
 const developerId = process.env.DEVELOPER_ID;
 
-function deleteAllMemory(message, conversations) {
+async function deleteAllMemory(interaction, conversations) {
   try {
-    if (message.author.id !== developerId) {
-      message.reply("Developer only command.");
+    if (interaction.user.id !== developerId) {
+      await interaction.reply("Developer only command.");
       return;
     }
 
+    if (!conversations || !(conversations instanceof Map)) {
+      throw new Error("Invalid conversations storage.");
+    }
+
     conversations.clear();
-    message.reply("All conversation histories have been cleared.");
+    await interaction.reply("All conversation histories have been cleared.");
   } catch (error) {
     console.error(`Error deleting all memory: ${error}`);
-    message.reply("Failed to clear conversation histories due to an error.");
+    await interaction.reply(
+      "Failed to clear conversation histories due to an error."
+    );
   }
 }
 
