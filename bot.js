@@ -30,7 +30,7 @@ const commands = [
   },
   {
     name: "deleteallmemory",
-    description: "Delete all conversations from memory! (Admin only)",
+    description: "Delete all conversations from memory! (Dev only)",
   },
 ];
 
@@ -95,9 +95,17 @@ client.on("messageCreate", async (message) => {
   const username = message.author.username;
   let conversation = conversations.get(userId) || [];
 
+  if (conversation.length === 0) {
+    conversation.push({
+      role: "system",
+      content:
+        "You are a helpful assistant powered by a LLM, you communicate through a BOT on discord which is maintained by developer named 'A' under the company NIS.",
+    });
+  }
+
   conversation.push({
     role: "user",
-    content: `${username}: ${message.content}`,
+    content: message.content,
   });
 
   if (conversation.length > MAX_HISTORY) conversation.shift();
