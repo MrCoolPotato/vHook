@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { Client, GatewayIntentBits } = require("discord.js");
+const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const OpenAI = require("openai");
@@ -20,6 +20,19 @@ const client = new Client({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.GuildScheduledEvents,
   ],
 });
 
@@ -39,6 +52,12 @@ const rest = new REST({ version: "9" }).setToken(BOT_TOKEN);
 client.on("ready", async () => {
   console.log("Bot is up and running!");
   console.log("CLIENT_ID:", process.env.CLIENT_ID);
+  client.user.setPresence({
+    status: "online",
+    activities: [{ name: `for cores`, type: ActivityType.Competing }],
+    status: "online",
+  });
+
   try {
     console.log("Started refreshing global application (/) commands.");
     await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
