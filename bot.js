@@ -70,7 +70,6 @@ const commands = [
         required: true,
         choices: [
           { name: "Playing", value: "Playing" },
-          { name: "Streaming", value: "Streaming" },
           { name: "Listening", value: "Listening" },
           { name: "Watching", value: "Watching" },
           { name: "Competing", value: "Competing" },
