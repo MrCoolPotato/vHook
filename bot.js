@@ -102,7 +102,7 @@ client.on("ready", async () => {
 });
 
 const conversations = new Map();
-const MAX_HISTORY = 100;
+const MAX_HISTORY = 200;
 
 async function testOpenAI() {
   try {
