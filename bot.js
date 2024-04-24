@@ -1,12 +1,18 @@
 require("dotenv").config();
 
-const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
-const { REST } = require("@discordjs/rest");
-const { Routes } = require("discord-api-types/v9");
+const {
+  Client,
+  GatewayIntentBits,
+  REST,
+  Routes,
+  Collection,
+  ActivityType,
+} = require("discord.js");
 const OpenAI = require("openai");
 
 const deleteMemory = require("./commands/deleteMemory");
 const deleteAllMemory = require("./commands/deleteAllMemory");
+const setActivity = require("./commands/setActivity");
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -40,10 +46,37 @@ const commands = [
   {
     name: "deletememory",
     description: "Delete your conversation memory!",
+    options: [],
   },
   {
     name: "deleteallmemory",
     description: "Delete all conversations from memory! (Dev only)",
+    options: [],
+  },
+  {
+    name: "setactivity",
+    description: "Set the bot's activity! (Dev only)",
+    options: [
+      {
+        type: 3,
+        name: "activity",
+        description: "The activity the bot should display",
+        required: true,
+      },
+      {
+        type: 3,
+        name: "type",
+        description: "The type of the activity (e.g., Playing, Competing)",
+        required: true,
+        choices: [
+          { name: "Playing", value: "Playing" },
+          { name: "Streaming", value: "Streaming" },
+          { name: "Listening", value: "Listening" },
+          { name: "Watching", value: "Watching" },
+          { name: "Competing", value: "Competing" },
+        ],
+      },
+    ],
   },
 ];
 
@@ -55,7 +88,6 @@ client.on("ready", async () => {
   client.user.setPresence({
     status: "online",
     activities: [{ name: `for cores`, type: ActivityType.Competing }],
-    status: "online",
   });
 
   try {
@@ -103,6 +135,8 @@ client.on("interactionCreate", async (interaction) => {
     deleteMemory(interaction, conversations);
   } else if (commandName === "deleteallmemory") {
     deleteAllMemory(interaction, conversations);
+  } else if (commandName === "setactivity") {
+    setActivity(interaction);
   }
 });
 
