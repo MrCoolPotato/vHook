@@ -1,0 +1,9 @@
+version: '3'
+services:
+  bot:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - BOT_TOKEN=${BOT_TOKEN}
