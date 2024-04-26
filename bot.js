@@ -13,6 +13,7 @@ const OpenAI = require("openai");
 const deleteMemory = require("./commands/deleteMemory");
 const deleteAllMemory = require("./commands/deleteAllMemory");
 const setActivity = require("./commands/setActivity");
+const deleteMessages = require("./commands/deleteMessages");
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -77,6 +78,20 @@ const commands = [
       },
     ],
   },
+  {
+    name: "deletemessages",
+    description: "Delete a specified number of messages in the channel.",
+    options: [
+      {
+        type: 4,
+        name: "count",
+        description: "The number of messages to delete",
+        required: true,
+        minValue: 1,
+        maxValue: 100,
+      },
+    ],
+  },
 ];
 
 const rest = new REST({ version: "9" }).setToken(BOT_TOKEN);
@@ -136,6 +151,8 @@ client.on("interactionCreate", async (interaction) => {
     deleteAllMemory(interaction, conversations);
   } else if (commandName === "setactivity") {
     setActivity(interaction);
+  } else if (commandName === "deletemessages") {
+    deleteMessages(interaction);
   }
 });
 
