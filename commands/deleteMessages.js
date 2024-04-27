@@ -32,16 +32,6 @@ async function deleteMessages(interaction) {
     });
   }
 
-  if (
-    !botPermissions ||
-    !botPermissions.has(PermissionFlagsBits.ManageMessages)
-  ) {
-    return interaction.reply({
-      content: "I do not have permission to manage messages in this channel.",
-      ephemeral: true,
-    });
-  }
-
   const count = interaction.options.getInteger("count");
   try {
     const fetchedMessages = await interaction.channel.messages.fetch({
@@ -56,9 +46,14 @@ async function deleteMessages(interaction) {
     });
   } catch (error) {
     console.error("Error deleting messages:", error);
+    let errorMessage = "Failed to delete messages.";
+    if (error.message.includes("Unknown Message")) {
+      errorMessage += " Some messages may not exist or are older than 14 days.";
+    } else if (error.message.includes("Missing Permissions")) {
+      errorMessage += " Missing permissions to delete some or all messages.";
+    }
     return interaction.reply({
-      content:
-        "Failed to delete messages. Please make sure I have the correct permissions and that the messages are not older than 14 days.",
+      content: errorMessage,
       ephemeral: true,
     });
   }
