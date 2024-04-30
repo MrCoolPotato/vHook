@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Discord bot integrates with OpenAI's GPT-3.5 to provide interactive conversations and also includes the ability to manage conversation histories with specific commands for memory deletion. It uses Discord.js v14 and the OpenAI node module for seamless integration and interaction on Discord servers.
+This Discord bot integrates with OpenAI's GPT-3.5(or any model) to provide interactive conversations and also includes the ability to manage conversation histories with specific commands for memory deletion. It uses Discord.js v14 and the OpenAI node module for seamless integration and interaction on Discord servers.
 
 ## Features
 
@@ -39,6 +39,7 @@ Create a `.env` file in the root directory and populate it with your credentials
 BOT_TOKEN=your_discord_bot_token_here
 OPENAI_API_KEY=your_openai_api_key_here
 CLIENT_ID=your_discord_client_id_here
+DEVELOPER_ID=your_discord_id_here (this account will have elevated access to the bot)
 
 ```
 
@@ -64,9 +65,22 @@ node bot.js
 
 ## Command List
 
-- `/deletememory` - Deletes the conversation history of the user who issued the command.
-- `/deleteallmemory` - Deletes all conversation histories (admin only).
+### 1. Delete Memory
 
-## License
+- **Command:** `/deletememory`
+- **Description:** Clears your personal conversation history with the bot.
 
-This project is licensed under the MIT License - see the `LICENSE` file for details.
+### 2. Delete All Memory
+
+- **Command:** `/deleteallmemory`
+- **Description:** Removes all users' conversations from the bot's memory, restricted to developers.
+
+### 3. Set Activity
+
+- **Command:** `/setactivity`
+- **Description:** Updates the bot's displayed activity to a specified type (e.g., Playing, Listening), developer-only.
+
+### 4. Delete Messages
+
+- **Command:** `/deletemessages`
+- **Description:** Deletes a specified number of recent messages in the channel, up to 100.
