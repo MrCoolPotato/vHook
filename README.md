@@ -1,6 +1,6 @@
 # Discord OpenAI Bot
 
-![Pfp](pfp.png)
+![Pfp](Pfp.png)
 
 ## Overview
 
