@@ -1,5 +1,7 @@
 # Discord OpenAI Bot
 
+![Pfp](pfp.png)
+
 ## Overview
 
 This Discord bot integrates with OpenAI's GPT-3.5(or any model) to provide interactive conversations and also includes the ability to manage conversation histories with specific commands for memory deletion. It uses Discord.js v14 and the OpenAI node module for seamless integration and interaction on Discord servers.
