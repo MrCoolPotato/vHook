@@ -80,9 +80,19 @@ node bot.js
 ### 3. Set Activity
 
 - **Command:** `/setactivity`
-- **Description:** Updates the bot's displayed activity to a specified type (e.g., Playing, Listening), developer-only.
+- **Description:** Updates the bot's displayed activity to a specified type (e.g., Playing, Listening). This command is restricted to developers.
 
 ### 4. Delete Messages
 
 - **Command:** `/deletemessages`
 - **Description:** Deletes a specified number of recent messages in the channel, up to 100.
+
+### 5. Relay Message
+
+- **Command:** `/relay`
+- **Description:** Sends a message to a specified channel. This command is restricted to the developer only, ensuring that only authorized users can relay messages through the bot.
+- **Parameters:**
+  - `text`: The message text to send.
+  - `channel`: The Discord channel to which the message will be sent. Only text and news channels are allowed.
+
+Ensure that the bot has appropriate permissions in the channel to send messages.

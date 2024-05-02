@@ -2,6 +2,7 @@ const deleteMemory = require("../commands/deleteMemory");
 const deleteAllMemory = require("../commands/deleteAllMemory");
 const setActivity = require("../commands/setActivity");
 const deleteMessages = require("../commands/deleteMessages");
+const relay = require("../commands/relay");
 
 async function handleInteractionCreate(interaction, conversations) {
   if (!interaction.isCommand()) return;
@@ -16,6 +17,8 @@ async function handleInteractionCreate(interaction, conversations) {
       await setActivity(interaction);
     } else if (commandName === "deletemessages") {
       await deleteMessages(interaction);
+    } else if (commandName === "relay") {
+      await relay(interaction);
     }
   } catch (error) {
     console.error(`Error handling command ${commandName}:`, error);

@@ -47,6 +47,25 @@ const commands = [
       },
     ],
   },
+  {
+    name: "relay",
+    description: "Send a message to a specified channel.",
+    options: [
+      {
+        name: "text",
+        type: 3,
+        description: "The message to send",
+        required: true,
+      },
+      {
+        name: "channel",
+        type: 7,
+        description: "Select the channel to send the message to",
+        required: true,
+        channelTypes: ["GUILD_TEXT"],
+      },
+    ],
+  },
 ];
 
 module.exports = commands;
