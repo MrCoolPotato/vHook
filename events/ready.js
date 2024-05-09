@@ -1,11 +1,6 @@
-const { REST, Routes, ActivityType } = require("discord.js");
+const { ActivityType } = require("discord.js");
 const OpenAI = require("openai");
 require("dotenv").config();
-
-const commands = require("../commands/registry");
-
-const BOT_TOKEN = process.env.BOT_TOKEN;
-const rest = new REST({ version: "9" }).setToken(BOT_TOKEN);
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -39,21 +34,6 @@ async function initializeBot(client) {
       status: "online",
       activities: [{ name: `nucleus`, type: ActivityType.Competing }],
     });
-
-    try {
-      console.log("Started refreshing global application (/) commands.");
-      const headers = {
-        Authorization: `Bearer ${process.env.BOT_TOKEN}`,
-        "Content-Type": "application/json",
-      };
-      await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
-        headers: headers,
-        body: commands,
-      });
-      console.log("Successfully reloaded global application (/) commands.");
-    } catch (error) {
-      console.error("Failed to reload global application (/) commands:", error);
-    }
     await testOpenAI();
   });
 }

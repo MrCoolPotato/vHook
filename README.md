@@ -96,3 +96,14 @@ node bot.js
   - `channel`: The Discord channel to which the message will be sent. Only text and news channels are allowed.
 
 Ensure that the bot has appropriate permissions in the channel to send messages.
+
+### 6. Analyze with OpenAI
+
+- **Command:** `Analyze with OpenAI` (Message Context Menu)
+- **Description:** Analyzes the selected message using OpenAI's GPT-4 model and replies with the generated response.
+
+### 7. Translate with OpenAI
+
+- **Command:** `Translate with OpenAI` (Message Context Menu)
+- **Description:** Translates the selected message using OpenAI's GPT-4 model and replies with the translated text.
+- **Target Language Selection:** The bot will prompt the user to select a target language after right-clicking on the message to translate.

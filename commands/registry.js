@@ -1,12 +1,21 @@
-const commands = [
+const {
+  Routes,
+  REST,
+  ApplicationCommandType,
+  ContextMenuCommandBuilder,
+} = require("discord.js");
+require("dotenv").config();
+
+const slashCommands = [
   {
     name: "deletememory",
-    description: "Delete your conversation memory!",
+    description: "Clear your personal conversation history with the bot.",
     options: [],
   },
   {
     name: "deleteallmemory",
-    description: "Delete all conversations from memory! (Dev only)",
+    description:
+      "Remove all users' conversations from the bot's memory (developer-only).",
     options: [],
   },
   {
@@ -49,23 +58,48 @@ const commands = [
   },
   {
     name: "relay",
-    description: "Send a message to a specified channel.",
+    description: "Send a message to a specified channel (developer-only).",
     options: [
       {
         name: "text",
         type: 3,
-        description: "The message to send",
+        description: "The message text to send",
         required: true,
       },
       {
         name: "channel",
         type: 7,
-        description: "Select the channel to send the message to",
+        description: "The channel to send the message to",
         required: true,
-        channelTypes: ["GUILD_TEXT"],
+        channel_types: [0, 5],
       },
     ],
   },
 ];
 
-module.exports = commands;
+const contextMenuCommands = [
+  new ContextMenuCommandBuilder()
+    .setName("analyze-with-openai")
+    .setType(ApplicationCommandType.Message)
+    .toJSON(),
+  new ContextMenuCommandBuilder()
+    .setName("translate-with-openai")
+    .setType(ApplicationCommandType.Message)
+    .toJSON(),
+];
+
+const rest = new REST().setToken(process.env.BOT_TOKEN);
+
+(async () => {
+  try {
+    console.log("Started refreshing global application (/) commands.");
+
+    await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
+      body: [...slashCommands, ...contextMenuCommands],
+    });
+
+    console.log("Successfully reloaded global application (/) commands.");
+  } catch (error) {
+    console.error(error);
+  }
+})();
