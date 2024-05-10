@@ -1,4 +1,6 @@
 const OpenAI = require("openai");
+const { chunkMessage } = require("../utils");
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -16,7 +18,7 @@ async function handleMessageCreate(message, client, conversations) {
     conversation.push({
       role: "system",
       content:
-        "You are a helpful assistant powered by a LLM, you communicate through a BOT on discord which is maintained by developer named 'A' under the company NIS.",
+        "You are a helpful assistant powered by a LLM. You communicate through a BOT on Discord which is maintained by a developer named 'A' under the company NIS.",
     });
   }
 
@@ -25,7 +27,7 @@ async function handleMessageCreate(message, client, conversations) {
     content: message.content,
   });
 
-  if (conversation.length > MAX_HISTORY) conversation.shift();
+  while (conversation.length > MAX_HISTORY) conversation.shift();
 
   try {
     const chatCompletion = await openai.chat.completions.create({
@@ -33,25 +35,18 @@ async function handleMessageCreate(message, client, conversations) {
       messages: conversation,
     });
 
+    const responseContent = chatCompletion.choices[0].message.content;
+
     conversation.push({
       role: "assistant",
-      content: chatCompletion.choices[0].message.content,
+      content: responseContent,
     });
 
-    if (conversation.length > MAX_HISTORY) conversation.shift();
+    while (conversation.length > MAX_HISTORY) conversation.shift();
 
-    const responseContent = chatCompletion.choices[0].message.content;
-    if (responseContent.length > 2000) {
-      const chunkSize = 2000;
-      for (let i = 0; i < responseContent.length; i += chunkSize) {
-        const messageChunk = responseContent.substring(
-          i,
-          Math.min(responseContent.length, i + chunkSize)
-        );
-        await message.reply(messageChunk);
-      }
-    } else {
-      await message.reply(responseContent);
+    const responseChunks = chunkMessage(responseContent);
+    for (const chunk of responseChunks) {
+      await message.reply(chunk);
     }
 
     conversations.set(userId, conversation);

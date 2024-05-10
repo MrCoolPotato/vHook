@@ -1,5 +1,6 @@
 const OpenAI = require("openai");
 const { ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
+const { chunkMessage } = require("../utils");
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -50,7 +51,7 @@ async function handleLanguageSelection(interaction) {
     const targetLanguage = interaction.values[0];
     console.log(`Selected target language: ${targetLanguage}`);
 
-    await interaction.deferReply({ ephemeral: false });
+    await interaction.deferReply({ ephemeral: true });
 
     const message = await interaction.channel.messages.fetch(messageId);
     console.log(`Fetched message for translation: "${message.content}"`);
@@ -74,10 +75,22 @@ async function handleLanguageSelection(interaction) {
     const responseContent = chatCompletion.choices[0].message.content;
     console.log(`Translation response: ${responseContent}`);
 
+    const responseChunks = chunkMessage(
+      `Translation to ${targetLanguage}: ${responseContent}`
+    );
+
     await interaction.editReply({
-      content: `Translation to ${targetLanguage}: ${responseContent}`,
+      content: responseChunks[0],
       components: [],
+      ephemeral: true,
     });
+
+    for (let i = 1; i < responseChunks.length; i++) {
+      await interaction.followUp({
+        content: responseChunks[i],
+        ephemeral: true,
+      });
+    }
   } catch (error) {
     console.error(`Error while handling language selection: ${error}`);
     try {
@@ -85,6 +98,7 @@ async function handleLanguageSelection(interaction) {
         content:
           "Sorry, I encountered an error trying to process your translation request.",
         components: [],
+        ephemeral: true,
       });
     } catch (updateError) {
       console.error(`Error updating the interaction: ${updateError}`);
