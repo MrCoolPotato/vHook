@@ -18,9 +18,6 @@ async function deleteMessages(interaction) {
   const memberPermissions = interaction.channel.permissionsFor(
     interaction.member
   );
-  const botPermissions = interaction.channel.permissionsFor(
-    interaction.guild.me
-  );
 
   if (
     !memberPermissions ||
@@ -45,7 +42,7 @@ async function deleteMessages(interaction) {
       ephemeral: true,
     });
   } catch (error) {
-    console.error("Error deleting messages:", error);
+    console.error("Error deleting messages:", error.stack || error);
     let errorMessage = "Failed to delete messages.";
     if (error.message.includes("Unknown Message")) {
       errorMessage += " Some messages may not exist or are older than 14 days.";
