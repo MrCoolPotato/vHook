@@ -34,7 +34,7 @@ git clone https://github.com/MrCoolPotato/Discord-multi-purpose-chatbot.git
 
 2. **Configure your environment variables:**
 
-Create a `.env` file in the root directory and populate it with your credentials:
+Create a `.env` file(check example) in the root directory and populate it with your credentials:
 
 ```
 
